@@ -8,7 +8,7 @@ import connectDB from './Config/ConnectToDB.js'
 
 const app = express()
 
-
+// Database-Connection
 connectDB()
 // Middlewares
 app.use('/api/auth',router)
@@ -18,5 +18,5 @@ app.use(cors())
 
 
 
-
-app.listen(process.env.PORT,console.log(`Server has been started on ${process.env.PORT}`))
+// Server
+app.listen(process.env.PORT,console.log(`Server has been started on ${process.env.PORT.blue}`))
