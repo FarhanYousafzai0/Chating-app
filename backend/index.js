@@ -10,11 +10,11 @@ const app = express()
 
 // Database-Connection
 connectDB()
-// Middlewares
-app.use('/api/auth',router)
 app.use(express.json());
 app.use(express.urlencoded({extended:false}))
 app.use(cors())
+// Middlewares
+app.use('/api/auth',router)
 
 
 

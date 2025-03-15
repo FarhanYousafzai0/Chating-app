@@ -6,7 +6,11 @@ import generateTokenAndSetCookie from "../Utils/generateToken.js";
 // Signup Controller
 export const signup = async (req, res) => {
     try {
-        const { fullName, username, password, confirmPassword, gender } = req.body;
+        const { fullName, username, password, confirmPassword, gender,profilePic } = req.body;
+
+        if(!fullName || !username || !password || !confirmPassword || !gender){
+            res.status(400).json({error:"Please enter all the fields!"})
+        }
 
         if (password !== confirmPassword) {
             return res.status(400).json({ error: "Passwords do not match!" });
@@ -68,7 +72,7 @@ export const login = async (req, res) => {
             return res.status(400).json({ error: "Invalid username or password" });
         }
 
-        const isCorrectPassword = await bcrypt.compare(password, user.password);
+        const isCorrectPassword = await bcrypt.compare(password, user?.password);
 
         if (!isCorrectPassword) {
             return res.status(400).json({ error: "Invalid username or password" });
