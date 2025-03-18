@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import colors from 'colors';
-
 import router from './Routes/authRoutes.js';
-
+import cookieParser  from 'cookie-parser';
 import connectDB from './Config/ConnectToDB.js';
 import { routerMessage } from './Routes/messageRoutes.js';
+import userRoute from './Routes/userRoute.js'
 
 // Load environment variables
 dotenv.config();
@@ -20,7 +20,7 @@ connectDB();
 // Middleware for JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
+app.use(cookieParser())
 // CORS Setup
 app.use(cors({
     origin: process.env.CLIENT_URL || '*', // Allows frontend URL for better security
@@ -30,7 +30,7 @@ app.use(cors({
 // Routes
 app.use('/api/auth', router);       // Authentication routes
 app.use('/api/message', routerMessage); // Message routes
-
+app.use('/api/users',userRoute)
 // 404 Handler (Optional but recommended)
 app.use((req, res) => {
     res.status(404).json({ error: "Route not found!" });
