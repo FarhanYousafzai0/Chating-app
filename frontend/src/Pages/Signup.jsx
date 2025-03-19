@@ -1,77 +1,149 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const Signup = () => {
-  return (
-    <>
-      <div className='flex flex-col items-center justify-center min-w-96 mx-auto'>
-        <div className='w-full p-8 rounded-xl shadow-md bg-clip-padding backdrop-filter backdrop-blur-lg'>
+  const [formFields, setFormFields] = useState({
+    fullName: '',
+    username: '',
+    password: '',
+    confirmPassword: '',
+    gender: '',
+  })
 
-          <div className='flex items-center gap-1'>
-            <h1 className='text-4xl text-center font-semibold text-white'>Signup</h1>
-            <span className='text-4xl text-blue-500'>ChatingApp</span>
+  const { fullName, username, password, confirmPassword, gender } = formFields
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormFields((prevFields) => ({
+      ...prevFields,
+      [name]: value
+    }))
+  }
+
+  const handleSubmit = (e) => {
+    
+  }
+
+  return (
+    <div className='flex flex-col justify-center items-center min-w-96 mx-auto'>
+      <div className='bg-clip-padding p-8 rounded-xl shadow-md w-full backdrop-blur-lg backdrop-filter'>
+
+        {/* Header */}
+        <div className='flex gap-1 items-center'>
+          <h1 className='text-4xl text-center text-white font-semibold'>Signup</h1>
+          <span className='text-4xl text-blue-500'>ChatingApp</span>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit}>
+          {/* Full Name */}
+          <div>
+            <label className='p-2 label'>
+              <span className='text-base label-text'>Full Name</span>
+            </label>
+            <input
+              type='text'
+              name='fullName'
+              value={fullName}
+              onChange={handleChange}
+              placeholder='Enter Full Name'
+              className='input input-bordered h-10 w-full'
+            />
           </div>
 
-          <form>
-            {/* Full_Name */}
-            <div>
-              <label className='label p-2'>
-                <span className='label-text text-base'>Full Name</span>
+          {/* Username */}
+          <div>
+            <label className='p-2 label'>
+              <span className='text-base label-text'>Username</span>
+            </label>
+            <input
+              type='text'
+              name='username'
+              value={username}
+              onChange={handleChange}
+              placeholder='Enter Username'
+              className='input input-bordered h-10 w-full'
+            />
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className='p-2 label'>
+              <span className='text-base label-text'>Password</span>
+            </label>
+            <input
+              type='password'
+              name='password'
+              value={password}
+              onChange={handleChange}
+              placeholder='Enter Password'
+              className='input input-bordered h-10 w-full'
+            />
+          </div>
+
+          {/* Confirm Password */}
+          <div>
+            <label className='p-2 label'>
+              <span className='text-base label-text'>Confirm Password</span>
+            </label>
+            <input
+              type='password'
+              name='confirmPassword'
+              value={confirmPassword}
+              onChange={handleChange}
+              placeholder='Confirm Password'
+              className='input input-bordered h-10 w-full'
+            />
+          </div>
+
+          {/* Gender Selection */}
+          <div className='mt-3'>
+            <label className='label'>
+              <span className='text-base label-text'>Gender</span>
+            </label>
+            <div className='flex gap-4'>
+              <label className='flex gap-2 items-center'>
+                <input
+                  type='radio'
+                  name='gender'
+                  value='Male'
+                  checked={gender === 'Male'}
+                  onChange={handleChange}
+                  className='radio radio-primary'
+                />
+                Male
               </label>
-              <input type='text' placeholder='Enter FullName' className='input w-full input-bordered h-10' />
-            </div>
-
-            {/* Username */}
-            <div>
-              <label className='label p-2'>
-                <span className='label-text text-base'>Username</span>
+              <label className='flex gap-2 items-center'>
+                <input
+                  type='radio'
+                  name='gender'
+                  value='Female'
+                  checked={gender === 'Female'}
+                  onChange={handleChange}
+                  className='radio radio-secondary'
+                />
+                Female
               </label>
-              <input type='text' placeholder='Enter Username' className='input w-full input-bordered h-10' />
             </div>
+          </div>
 
-            {/* Password */}
-            <div>
-              <label className='label p-2'>
-                <span className='label-text text-base'>Password</span>
-              </label>
-              <input type='password' placeholder='Enter Password' className='input w-full input-bordered h-10' />
-            </div>
+          {/* Login Link */}
+          <Link
+            to='/login'
+            className='text-center hover:text-blue-300 hover:underline inline-block mt-2 transition-all'
+          >
+            Already have an account?
+          </Link>
 
-            {/* Confirm Password */}
-            <div>
-              <label className='label p-2'>
-                <span className='label-text text-base'>Confirm Password</span>
-              </label>
-              <input type='password' placeholder='Confirm Password' className='input w-full input-bordered h-10' />
-            </div>
-
-            {/* Gender Selection */}
-            <div className='mt-3'>
-              <label className='label'>
-                <span className='label-text text-base'>Gender</span>
-              </label>
-              <div className='flex gap-4'>
-                <label className='flex items-center gap-2'>
-                  <input type='checkbox' className='checkbox checkbox-xs checkbox-primary' />
-                  Male
-                </label>
-                <label className='flex items-center gap-2'>
-                  <input type='checkbox' className='checkbox checkbox-xs checkbox-secondary' />
-                  Female
-                </label>
-              </div>
-            </div>
-
-            <a href='#' className='text-center mt-2 inline-block transition-all hover:text-blue-300 hover:underline'>
-              Already have an account?
-            </a>
-
-            <div className='mt-2'>
-              <button className='btn btn-block'>Signup</button>
-            </div>
-          </form>
-        </div>
+          {/* Signup Button */}
+          <div className='mt-2'>
+            <button type='submit' className='btn btn-block'>
+              Signup
+            </button>
+          </div>
+        </form>
       </div>
-    </>
+    </div>
   )
 }
 
