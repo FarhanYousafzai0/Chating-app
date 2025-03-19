@@ -1,0 +1,32 @@
+body {
+	background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url("/bg.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center ;
+}
+/*  */
+/* Scrollbar for WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1E1E1E; /* Dark background */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #059FDB; /* Your preferred accent color */
+    border-radius: 10px;
+    border: 2px solid #1E1E1E; /* Blends with track for a smooth look */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #059FDB; /* Slightly brighter for hover effect */
+}
+
+/* Firefox Scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #059FDB #1E1E1E; /* Thumb | Track */
+}
