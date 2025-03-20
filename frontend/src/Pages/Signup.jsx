@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addSignUpData, reset } from '../Features/AuthSlice';
 import { toast } from 'react-hot-toast';
+import { Triangle } from 'react-loader-spinner';
 
 const Signup = () => {
   const [formFields, setFormFields] = useState({
@@ -15,8 +16,10 @@ const Signup = () => {
 
   const { fullName, username, password, confirmPassword, gender } = formFields;
 
-  const { isLoading, isError, isSuccess, authMessage } = useSelector((state) => state.auth);
+  const { isLoading, isError, isSuccess, authMessage, user } = useSelector((state) => state.auth);
+
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,15 +31,23 @@ const Signup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if(password !== confirmPassword){
-      toast.error("Passwords does not match!");
+
+    if (!fullName || !username || !password || !confirmPassword || !gender) {
+      toast.error('Please fill in all fields.');
+      return;
     }
+
+    if (password !== confirmPassword) {
+      toast.error('Passwords do not match!');
+      return;
+    }
+
     dispatch(addSignUpData(formFields));
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success('Signup Successfully');
+    if (isSuccess && user) {
+      toast.success('Signup Successful!');
       setFormFields({
         fullName: '',
         username: '',
@@ -44,13 +55,16 @@ const Signup = () => {
         confirmPassword: '',
         gender: '',
       });
+
+      navigate('/'); // Redirect to home page
       dispatch(reset());
     }
+
     if (isError) {
       toast.error(authMessage);
       dispatch(reset());
     }
-  }, [isSuccess, isError, authMessage, dispatch]);
+  }, [isSuccess, isError, authMessage, user, dispatch, navigate]);
 
   return (
     <div className='flex flex-col justify-center items-center min-w-96 mx-auto'>
@@ -155,8 +169,22 @@ const Signup = () => {
           </Link>
 
           <div className='mt-2'>
-            <button type='submit' className='btn btn-block'>
-              Signup
+            <button
+              type='submit'
+              className='flex btn btn-block justify-center gap-2 items-center'
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Triangle
+                  visible={true}
+                  height="30"
+                  width="30"
+                  color="white"
+                  ariaLabel="triangle-loading"
+                />
+              ) : (
+                'Signup'
+              )}
             </button>
           </div>
         </form>
