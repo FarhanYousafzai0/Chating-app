@@ -1,5 +1,8 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSignUpData, reset } from '../Features/AuthSlice';
+import { toast } from 'react-hot-toast';
 
 const Signup = () => {
   const [formFields, setFormFields] = useState({
@@ -8,35 +11,56 @@ const Signup = () => {
     password: '',
     confirmPassword: '',
     gender: '',
-  })
+  });
 
-  const { fullName, username, password, confirmPassword, gender } = formFields
+  const { fullName, username, password, confirmPassword, gender } = formFields;
+
+  const { isLoading, isError, isSuccess, authMessage } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormFields((prevFields) => ({
       ...prevFields,
-      [name]: value
-    }))
-  }
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = (e) => {
-    
-  }
+    e.preventDefault();
+    if(password !== confirmPassword){
+      toast.error("Passwords does not match!");
+    }
+    dispatch(addSignUpData(formFields));
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Signup Successfully');
+      setFormFields({
+        fullName: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+        gender: '',
+      });
+      dispatch(reset());
+    }
+    if (isError) {
+      toast.error(authMessage);
+      dispatch(reset());
+    }
+  }, [isSuccess, isError, authMessage, dispatch]);
 
   return (
     <div className='flex flex-col justify-center items-center min-w-96 mx-auto'>
       <div className='bg-clip-padding p-8 rounded-xl shadow-md w-full backdrop-blur-lg backdrop-filter'>
-
-        {/* Header */}
         <div className='flex gap-1 items-center'>
           <h1 className='text-4xl text-center text-white font-semibold'>Signup</h1>
           <span className='text-4xl text-blue-500'>ChatingApp</span>
         </div>
 
-        {/* Form */}
         <form onSubmit={handleSubmit}>
-          {/* Full Name */}
           <div>
             <label className='p-2 label'>
               <span className='text-base label-text'>Full Name</span>
@@ -51,7 +75,6 @@ const Signup = () => {
             />
           </div>
 
-          {/* Username */}
           <div>
             <label className='p-2 label'>
               <span className='text-base label-text'>Username</span>
@@ -66,7 +89,6 @@ const Signup = () => {
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className='p-2 label'>
               <span className='text-base label-text'>Password</span>
@@ -81,7 +103,6 @@ const Signup = () => {
             />
           </div>
 
-          {/* Confirm Password */}
           <div>
             <label className='p-2 label'>
               <span className='text-base label-text'>Confirm Password</span>
@@ -96,7 +117,6 @@ const Signup = () => {
             />
           </div>
 
-          {/* Gender Selection */}
           <div className='mt-3'>
             <label className='label'>
               <span className='text-base label-text'>Gender</span>
@@ -127,7 +147,6 @@ const Signup = () => {
             </div>
           </div>
 
-          {/* Login Link */}
           <Link
             to='/login'
             className='text-center hover:text-blue-300 hover:underline inline-block mt-2 transition-all'
@@ -135,7 +154,6 @@ const Signup = () => {
             Already have an account?
           </Link>
 
-          {/* Signup Button */}
           <div className='mt-2'>
             <button type='submit' className='btn btn-block'>
               Signup
@@ -144,7 +162,7 @@ const Signup = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

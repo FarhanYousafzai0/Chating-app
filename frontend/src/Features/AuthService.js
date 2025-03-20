@@ -13,6 +13,7 @@ const login = async (userData) => {
         localStorage.setItem('token', response.data.token)  // Store token for authenticated routes
     }
     return response.data
+    console.log(response.data)
 }
 
 const authServices = { register, login }

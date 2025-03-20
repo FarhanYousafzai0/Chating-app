@@ -1,13 +1,14 @@
 import React from 'react';
-import {   Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Home from './Pages/Home/Home';
 import './App.css';
+import { Toaster } from 'react-hot-toast';
 
 const App = () => {
   return (
-  
+    <>
       <div className="flex h-screen justify-center p-4 text-white items-center">
         <Routes>
           <Route path='/' element={<Home />} />
@@ -15,8 +16,9 @@ const App = () => {
           <Route path='/signup' element={<Signup />} />
           <Route path='*' element={<NotFound />} />
         </Routes>
-      </div>
-   
+      </div>~
+      <Toaster position="top-right" reverseOrder={false} />
+    </>
   );
 };
 
