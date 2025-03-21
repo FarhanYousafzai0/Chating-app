@@ -46,7 +46,10 @@ const Login = () => {
     return (
         <div className='flex flex-col justify-center items-center min-w-96 mx-auto'>
             <div className='bg-clip-padding p-8 rounded-xl shadow-md w-full backdrop-blur-lg backdrop-filter'>
-                <h1 className='text-4xl text-center text-white font-semibold'>Login</h1>
+            <div className='flex gap-1 items-center my-4'>
+          <h1 className='text-4xl text-center text-white font-semibold'>Login</h1>
+          <span className='text-4xl text-blue-500'>ChatingApp</span>
+        </div>
                 <form onSubmit={handleSubmit}>
                     <input
                         value={username}

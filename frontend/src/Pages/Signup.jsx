@@ -41,6 +41,10 @@ const Signup = () => {
       toast.error('Passwords do not match!');
       return;
     }
+    if(password.length < 6){
+      toast.error("Passoword must be at least 6 characters!")
+      return
+    }
 
     dispatch(addSignUpData(formFields));
   };
